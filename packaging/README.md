@@ -1,8 +1,18 @@
+> **STALE — DO NOT FILE AS IS (2026-11-02).** This payload describes α = 3/4.
+> The board's 2026-11-02 ruling gives a proof run only at α ≤ 1/2, so a 3/4
+> submission gets no run and no row. The fileable target is
+> `theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime (1/2)` on the
+> `prog2` (doubling-merge both halves + linear two-pointer sweep) program —
+> see `../VERDICT.md`. `file.py` also still points at the *darkhipo* repo:
+> repoint REPO_NAME/GH_OWNER/BOUND/ENTRY_LEAN to the `prog2` payload before use.
+> The mechanics below (fresh build, axiom audit, four-field issue body, reduced
+> rational bound, `/usr/bin/git`) are still the correct contract.
+
 # Subset Sum: O(2^(αn)) on the randomized word RAM
 
 A Lean 4 proof that subset sum is solvable in time O(2^(αn)) on the
 randomized word RAM model of the Big O Speedrun (bigospeedrun.com),
-with α = 3/4.
+with α = 3/4 (see the banner: fileable target is 1/2).
 
 ## The program
 

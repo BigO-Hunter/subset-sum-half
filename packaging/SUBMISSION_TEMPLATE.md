@@ -12,7 +12,7 @@ subset-sum
 
 ### Bound
 
-3/4
+1/2   <!-- for the prog2 payload; the 3/4 value below the old banner is DEAD: >1/2 gets no run -->
 
 ### Notes
 
