@@ -1276,6 +1276,229 @@ theorem prologue_exec2 (x : Instance n) (ρ : Nat → BitVec w) (hn : 4 ≤ n)
 
 
 
+/-! ### The small-n dispatch (pcs 0→12→244, n ∈ {2, 3}; LSMALL moved) -/
+
+theorem pro2_segA23 {w n : Nat} (x : Instance n) (ρ : Nat → BitVec w)
+    (hn : 2 ≤ n) (hn3 : n ≤ 3) (hpow : 2 ^ (2 * n) ≤ 2 ^ w)
+    (hif : ∀ q, inF x q < 2 ^ w)
+    (r S : Nat) (hS : 8 ≤ S) :
+    ∃ g, exec prog2 ρ S 0 r (memOf w (inF x))
+      = exec prog2 ρ (S - 8) 8 r (memOf w g) ∧
+      (∀ q, g q < 2 ^ w) ∧ g 0 = 2 * n + 2 ∧ g 1 = 1 ∧ g 2 = 0 ∧
+      (∀ j, j + 1 ≤ 3 → j + 1 ≤ n + 1 → g (2 * n + j) = inF x (j + 1)) ∧
+      (∀ q, 4 ≤ q → q ≤ n + 1 → g q = inF x q) := by
+  have h416 : (2:Nat) ^ (4:Nat) ≤ 2 ^ (2 * n) :=
+    Nat.pow_le_pow_right (by omega) (by omega)
+  have h16 : (16:Nat) ≤ 2 ^ w := Nat.le_trans h416 hpow
+  have hv0 : (2 * n + 2 : Nat) < 2 ^ w := Nat.lt_of_lt_of_le (by omega) h16
+  have e0 : inF x 0 + inF x 0 = 2 * n := by
+    rw [inF_zero]
+    omega
+  have e1 : (up (inF x) (0) (2 * n)) 0 = 2 * n := up_eq _ _ _
+  have e2 : (up (inF x) (0) (2 * n)) 1 = inF x 1 := up_ne (by omega)
+  have e3 : (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1)) 0
+      + (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1)) 1
+      = 2 * n + 1 := by
+    rw [up_ne (show (0:Nat) ≠ 1 by omega), up_ne (show (0:Nat) ≠ 2 * n by omega),
+      up_eq, up_eq]
+  have e4 : (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) 0 = 2 * n + 1 := up_eq _ _ _
+  have e5 : (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) 2 = inF x 2 := by
+    rw [up_ne (show (2:Nat) ≠ 0 by omega), up_ne (show (2:Nat) ≠ 1 by omega),
+      up_ne (show (2:Nat) ≠ 2 * n by omega), up_ne (show (2:Nat) ≠ 0 by omega)]
+  have e6 : (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) 2
+      - (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) 2 = 0 := by
+    rw [up_ne (show (2:Nat) ≠ 2 * n + 1 by omega), up_ne (show (2:Nat) ≠ 0 by omega),
+      up_ne (show (2:Nat) ≠ 1 by omega), up_ne (show (2:Nat) ≠ 2 * n by omega),
+      up_ne (show (2:Nat) ≠ 0 by omega)]
+    omega
+  have e7 : (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0)) 0
+      + (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0)) 1 = 2 * n + 2 := by
+    rw [up_ne (show (0:Nat) ≠ 2 by omega), up_ne (show (0:Nat) ≠ 2 * n + 1 by omega),
+      up_eq, up_ne (show (1:Nat) ≠ 2 by omega),
+      up_ne (show (1:Nat) ≠ 2 * n + 1 by omega), up_ne (show (1:Nat) ≠ 0 by omega),
+      up_eq]
+  have e8 : (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1))
+      (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0)) (0) (2 * n + 2)) 0
+      = 2 * n + 2 := up_eq _ _ _
+  have e9 : (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1))
+      (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0)) (0) (2 * n + 2)) 3
+      = inF x 3 := by
+    rw [up_ne (show (3:Nat) ≠ 0 by omega), up_ne (show (3:Nat) ≠ 2 by omega),
+      up_ne (show (3:Nat) ≠ 2 * n + 1 by omega), up_ne (show (3:Nat) ≠ 0 by omega),
+      up_ne (show (3:Nat) ≠ 1 by omega), up_ne (show (3:Nat) ≠ 2 * n by omega),
+      up_ne (show (3:Nat) ≠ 0 by omega)]
+  have hv : ∀ v, v ≤ 2 * n + 2 → v < 2 ^ w := by
+    intro v hvv
+    exact Nat.lt_of_le_of_lt hvv hv0
+  have hfit1 : ∀ q, up (inF x) (0) (2 * n) q < 2 ^ w :=
+    upFit hif (hv _ (by omega))
+  have hfit2 : ∀ q, up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1) q < 2 ^ w :=
+    upFit hfit1 (hif 1)
+  have hfit3 : ∀ q, up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1)
+      q < 2 ^ w := upFit hfit2 (hv _ (by omega))
+  have hfit4 : ∀ q, up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1)) (1) (1))
+      (0) (2 * n + 1) q < 2 ^ w := upFit hfit3 (hv _ (by omega))
+  have hfit5 : ∀ q, up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1))
+      (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2) q < 2 ^ w :=
+    upFit hfit4 (hif 2)
+  have hfit6 : ∀ q, up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n) (inF x 1))
+      (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0) q < 2 ^ w :=
+    upFit hfit5 (hv _ (by omega))
+  have hfit7 : ∀ q, up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2) q < 2 ^ w := upFit hfit6 (hv _ (by omega))
+  have hfit8 : ∀ q, up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3) q < 2 ^ w := upFit hfit7 (hif 3)
+  have hf0 : (up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3)) (0) = 2 * n + 2 := by
+    rw [up_ne (show (0:Nat) ≠ 2 * n + 2 by omega), up_eq]
+  have hf1 : (up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3)) (1) = 1 := by
+    rw [up_ne (show (1:Nat) ≠ 2 * n + 2 by omega), up_ne (show (1:Nat) ≠ 0 by omega),
+      up_ne (show (1:Nat) ≠ 2 by omega), up_ne (show (1:Nat) ≠ 2 * n + 1 by omega),
+      up_ne (show (1:Nat) ≠ 0 by omega), up_eq]
+  have hf2 : (up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3)) (2) = 0 := by
+    rw [up_ne (show (2:Nat) ≠ 2 * n + 2 by omega), up_ne (show (2:Nat) ≠ 0 by omega),
+      up_eq]
+  have hscr : ∀ j, j + 1 ≤ 3 → j + 1 ≤ n + 1 →
+      (up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3)) (2 * n + j) = inF x (j + 1) := by
+    intro j hj1 hj2
+    rcases (show j = 0 ∨ j = 1 ∨ j = 2 by omega) with rfl | rfl | rfl
+    · rw [show (2 * n + 0) = 2 * n from Nat.add_zero (2 * n)]
+      rw [up_ne (show 2 * n ≠ 2 * n + 2 by omega), up_ne (show 2 * n ≠ 0 by omega),
+        up_ne (show 2 * n ≠ 2 by omega), up_ne (show 2 * n ≠ 2 * n + 1 by omega),
+        up_ne (show 2 * n ≠ 0 by omega), up_ne (show 2 * n ≠ 1 by omega), up_eq]
+    · rw [up_ne (show 2 * n + 1 ≠ 2 * n + 2 by omega),
+        up_ne (show 2 * n + 1 ≠ 0 by omega), up_ne (show 2 * n + 1 ≠ 2 by omega),
+        up_eq]
+    · rw [up_eq]
+  have hp4 : ∀ q, 4 ≤ q → q ≤ n + 1 →
+      (up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+      (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+      (0) (2 * n + 2)) (2 * n + 2) (inF x 3)) q = inF x q := by
+    intro q hq1 hq2
+    rw [up_ne (show q ≠ 2 * n + 2 by omega), up_ne (show q ≠ 0 by omega),
+      up_ne (show q ≠ 2 by omega), up_ne (show q ≠ 2 * n + 1 by omega),
+      up_ne (show q ≠ 0 by omega), up_ne (show q ≠ 1 by omega),
+      up_ne (show q ≠ 2 * n by omega), up_ne (show q ≠ 0 by omega)]
+  refine ⟨up (up (up (up (up (up (up (up (inF x) (0) (2 * n)) (2 * n)
+    (inF x 1)) (1) (1)) (0) (2 * n + 1)) (2 * n + 1) (inF x 2)) (2) (0))
+    (0) (2 * n + 2)) (2 * n + 2) (inF x 3), ?_, hfit8, ?_, ?_, ?_, ?_, ?_⟩
+  · rw [exec_add_step (by omega) (show prog2.getD 0 Instr.reject = Instr.add 0 0 0 by rfl),
+      e0, exec_store_step (by omega)
+        (show prog2.getD 1 Instr.reject = Instr.store 0 1 by rfl) hfit1, e1, e2,
+      exec_one_step (by omega)
+        (show prog2.getD 2 Instr.reject = Instr.one 1 by rfl),
+      exec_add_step (by omega)
+        (show prog2.getD 3 Instr.reject = Instr.add 0 0 1 by rfl), e3,
+      exec_store_step (by omega)
+        (show prog2.getD 4 Instr.reject = Instr.store 0 2 by rfl) hfit4, e4, e5,
+      exec_sub_step (by omega)
+        (show prog2.getD 5 Instr.reject = Instr.sub 2 2 2 by rfl) hfit5 (Nat.le_refl _),
+      e6, exec_add_step (by omega)
+        (show prog2.getD 6 Instr.reject = Instr.add 0 0 1 by rfl), e7,
+      exec_store_step (by omega)
+        (show prog2.getD 7 Instr.reject = Instr.store 0 3 by rfl) hfit7, e8, e9]
+    simp only [Nat.sub_sub, Nat.reduceAdd]
+  · exact hf0
+  · exact hf1
+  · exact hf2
+  · exact hscr
+  · exact hp4
+
+/-- The small-n dispatch: pcs 0→12 with the guard `blt 0 3 244` TAKEN
+(n ≤ 3 makes cell0 = 2n+2 < 9 = cell3).  Control lands at 244 in the
+state `smalln_loads` consumes (cur := 2n+2, [3] := 9). -/
+
+theorem pro_dispatch223 {w n : Nat} (x : Instance n) (ρ : Nat → BitVec w)
+    (hn : 2 ≤ n) (hn3 : n ≤ 3) (hpow : 2 ^ (2 * n) ≤ 2 ^ w)
+    (hif : ∀ q, inF x q < 2 ^ w) (r S : Nat) (hS : 13 ≤ S) :
+    ∃ g, exec prog2 ρ S 0 r (memOf w (inF x))
+      = exec prog2 ρ (S - 13) 244 r (memOf w g) ∧
+      (∀ q, g q < 2 ^ w) ∧ g 0 = 2 * n + 2 ∧ g 1 = 1 ∧ g 2 = 0 ∧
+      g 3 = 9 ∧
+      (∀ j, j + 1 ≤ 3 → j + 1 ≤ n + 1 → g (2 * n + j) = inF x (j + 1)) ∧
+      (∀ q, 4 ≤ q → q ≤ n + 1 → g q = inF x q) := by
+  have h416 : (2:Nat) ^ (4:Nat) ≤ 2 ^ (2 * n) :=
+    Nat.pow_le_pow_right (by omega) (by omega)
+  have h16 : (16:Nat) ≤ 2 ^ w := Nat.le_trans h416 hpow
+  have h9 : (9:Nat) < 2 ^ w := by omega
+  obtain ⟨f, hex, hfit, hf0, hf1, hf2, hscr, hp4⟩ :=
+    pro2_segA23 x ρ hn hn3 hpow hif r S (by omega)
+  have e1 : f 1 + f 1 = 2 := by rw [hf1]
+  have e2 : (up f 3 2) 3 + (up f 3 2) 3 = 4 := by rw [up_eq]
+  have e3 : (up (up f 3 2) 3 4) 3 + (up (up f 3 2) 3 4) 3 = 8 := by rw [up_eq]
+  have e4 : (up (up (up f 3 2) 3 4) 3 8) 3
+      + (up (up (up f 3 2) 3 4) 3 8) 1 = 9 := by
+    rw [up_eq, up_ne (show (1:Nat) ≠ 3 by omega),
+      up_ne (show (1:Nat) ≠ 3 by omega), up_ne (show (1:Nat) ≠ 3 by omega), hf1]
+  have hfit1 : ∀ q, (up f 3 2) q < 2 ^ w := upFit hfit (by omega)
+  have hfit2 : ∀ q, (up (up f 3 2) 3 4) q < 2 ^ w := upFit hfit1 (by omega)
+  have hfit3 : ∀ q, (up (up (up f 3 2) 3 4) 3 8) q < 2 ^ w := upFit hfit2 (by omega)
+  have hfit4 : ∀ q, (up (up (up (up f 3 2) 3 4) 3 8) 3 9) q < 2 ^ w :=
+    upFit hfit3 h9
+  have g0 : (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 0 = 2 * n + 2 := by
+    rw [up_ne (show (0:Nat) ≠ 3 by omega), up_ne (show (0:Nat) ≠ 3 by omega),
+      up_ne (show (0:Nat) ≠ 3 by omega), up_ne (show (0:Nat) ≠ 3 by omega), hf0]
+  have g1 : (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 1 = 1 := by
+    rw [up_ne (show (1:Nat) ≠ 3 by omega), up_ne (show (1:Nat) ≠ 3 by omega),
+      up_ne (show (1:Nat) ≠ 3 by omega), up_ne (show (1:Nat) ≠ 3 by omega), hf1]
+  have g2 : (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 2 = 0 := by
+    rw [up_ne (show (2:Nat) ≠ 3 by omega), up_ne (show (2:Nat) ≠ 3 by omega),
+      up_ne (show (2:Nat) ≠ 3 by omega), up_ne (show (2:Nat) ≠ 3 by omega), hf2]
+  have g3 : (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 3 = 9 := up_eq _ _ _
+  have gscr : ∀ j, j + 1 ≤ 3 → j + 1 ≤ n + 1 →
+      (up (up (up (up f 3 2) 3 4) 3 8) 3 9) (2 * n + j) = inF x (j + 1) := by
+    intro j hj1 hj2
+    rw [up_ne (show 2 * n + j ≠ 3 by omega), up_ne (show 2 * n + j ≠ 3 by omega),
+      up_ne (show 2 * n + j ≠ 3 by omega), up_ne (show 2 * n + j ≠ 3 by omega)]
+    exact hscr j hj1 hj2
+  have gp4 : ∀ q, 4 ≤ q → q ≤ n + 1 →
+      (up (up (up (up f 3 2) 3 4) 3 8) 3 9) q = inF x q := by
+    intro q hq1 hq2
+    rw [up_ne (show q ≠ 3 by omega), up_ne (show q ≠ 3 by omega),
+      up_ne (show q ≠ 3 by omega), up_ne (show q ≠ 3 by omega)]
+    exact hp4 q hq1 hq2
+  have hlt0 : (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 0
+      < (up (up (up (up f 3 2) 3 4) 3 8) 3 9) 3 := by
+    rw [up_ne (show (0:Nat) ≠ 3 by omega), up_ne (show (0:Nat) ≠ 3 by omega),
+      up_ne (show (0:Nat) ≠ 3 by omega), up_ne (show (0:Nat) ≠ 3 by omega), hf0,
+      up_eq]
+    omega
+  have hpfx : exec prog2 ρ (S - 8) 8 r (memOf w f)
+      = exec prog2 ρ (S - 8 - 5) 244 r
+          (memOf w (up (up (up (up f 3 2) 3 4) 3 8) 3 9)) := by
+    rw [exec_add_step (by omega)
+        (show prog2.getD 8 Instr.reject = Instr.add 3 1 1 by rfl), e1,
+      exec_add_step (by omega)
+        (show prog2.getD 9 Instr.reject = Instr.add 3 3 3 by rfl), e2,
+      exec_add_step (by omega)
+        (show prog2.getD 10 Instr.reject = Instr.add 3 3 3 by rfl), e3,
+      exec_add_step (by omega)
+        (show prog2.getD 11 Instr.reject = Instr.add 3 3 1 by rfl), e4,
+      exec_blt_lt_step (by omega)
+        (show prog2.getD 12 Instr.reject = Instr.blt 0 3 244 by rfl) hfit4 hlt0]
+    simp only [Nat.sub_sub, Nat.reduceAdd]
+  refine ⟨up (up (up (up f 3 2) 3 4) 3 8) 3 9, hex.trans hpfx, hfit4,
+    g0, g1, g2, g3, gscr, gp4⟩
+
+
+
+/-! ### The n ≥ 4 prologue: pcs 0 → 86 -/
+
 end ExecWalk
 
 end SubsetSum.MITM
