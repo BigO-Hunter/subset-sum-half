@@ -199,7 +199,8 @@ theorem round2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       f' 10 = k + 1 ∧ f' 11 = 2 * L ∧ f' 18 = d ∧ f' 19 = b ∧ f' 21 = m + 1 ∧
       arrL f' d (2 * L) = halfSums (instA2 x h) k ∧
       f' 1 = 1 ∧ f' 2 = 0 ∧ f' 4 = m ∧ f' 7 = n ∧ f' 8 = 2 * n + 23 ∧ f' 9 = h ∧
-      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f f' ∧ f' 5 = f 5 ∧ f' 22 = f 22 := by
+      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f f' ∧ f' 5 = f 5 ∧ f' 22 = f 22 ∧
+      (∀ q, q < 2 ^ h → f' (3 * n + 25 + q) = f (3 * n + 25 + q)) := by
   intro h m k L b d f S r hh hm hk1 hkm hL hf1 hf2 hf4 hf7 hf8 hf9 hf10 hf11 hf18 hf19
     harr hbases hrel hin hfit haddr hS
   -- A and B are the envelope's two big numerals; every arithmetic fact below is
@@ -443,6 +444,38 @@ theorem round2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
     rw [up_ne (show (8:Nat) ≠ 21 by omega), up_ne (show (8:Nat) ≠ 10 by omega),
       up_ne (show (8:Nat) ≠ 19 by omega), up_ne (show (8:Nat) ≠ 18 by omega),
       up_ne (show (8:Nat) ≠ 20 by omega), up_ne (show (8:Nat) ≠ 11 by omega), fm8]
+  -- the S₁ strip [3n+25, 3n+25+2^h) is neither a register nor in MReg's array part
+  have fm_strip : ∀ q, q < 2 ^ h → fm (3 * n + 25 + q) = f (3 * n + 25 + q) := by
+    intro q hq
+    have hmr : ¬ MReg d L (3 * n + 25 + q) := by
+      intro hc
+      rcases hc with h | h | h | h | h | h | h | ⟨h1, h2⟩
+      · omega
+      · omega
+      · omega
+      · omega
+      · omega
+      · omega
+      · omega
+      · rcases pair_d hbases' with hd | hd
+        · rw [hd] at h1; rw [← hAh] at h1; omega
+        · rw [hd] at h1; rw [← hAh] at h1; omega
+    rw [hpm _ hmr]
+    rw [up_ne (show 3 * n + 25 + q ≠ 14 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 13 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 12 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 17 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 20 by omega)]
+  have f'strip : ∀ q, q < 2 ^ h →
+      (up (up (up (up (up (up fm 11 (2 * L)) 20 b) 18 d) 19 b) 10 (k + 1))
+        21 (m + 1)) (3 * n + 25 + q) = f (3 * n + 25 + q) := by
+    intro q hq
+    rw [up_ne (show 3 * n + 25 + q ≠ 21 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 10 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 19 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 18 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 20 by omega),
+      up_ne (show 3 * n + 25 + q ≠ 11 by omega), fm_strip q hq]
   have f'5 : (up (up (up (up (up (up fm 11 (2 * L)) 20 b) 18 d) 19 b) 10 (k + 1))
       21 (m + 1)) 5 = f 5 := by
     rw [up_ne (show (5:Nat) ≠ 21 by omega), up_ne (show (5:Nat) ≠ 10 by omega),
@@ -505,7 +538,7 @@ theorem round2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
     exact pres_up (c := 21) (v := m + 1) (Or.inl (by omega))
   refine ⟨6 + c2 + 6, up (up (up (up (up (up fm 11 (2 * L)) 20 b) 18 d) 19 b)
       10 (k + 1)) 21 (m + 1), by omega, ?_, f'10, f'11, f'18, f'19, f'21, f'arr,
-    f'1, f'2, f'4, f'7, f'8, f'9, f'fit, hPA, f'5, f'22⟩
+    f'1, f'2, f'4, f'7, f'8, f'9, f'fit, hPA, f'5, f'22, f'strip⟩
   rw [hwalk6, hex2, htail]
   simp only [Nat.sub_sub]
 
@@ -540,7 +573,8 @@ theorem lround2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       (bd = 3 * n + 26 + 2 ^ h ∨ bd = 3 * n + 27 + 2 ^ h + 2 ^ m) ∧
       arrL f' bd (2 ^ m) = halfSums (instA2 x h) m ∧
       f' 1 = 1 ∧ f' 2 = 0 ∧ f' 4 = m ∧ f' 7 = n ∧ f' 8 = 2 * n + 23 ∧ f' 9 = h ∧
-      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f f' ∧ f' 5 = f 5 ∧ f' 22 = f 22 := by
+      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f f' ∧ f' 5 = f 5 ∧ f' 22 = f 22 ∧
+      (∀ q, q < 2 ^ h → f' (3 * n + 25 + q) = f (3 * n + 25 + q)) := by
   intro F
   induction F with
   | zero =>
@@ -557,7 +591,7 @@ theorem lround2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       rw [← Nat.pow_succ', show (k - 1).succ = k from by omega]
     have h2km : 2 ^ k ≤ 2 ^ m := Nat.pow_le_pow_right (by omega) (by omega)
     obtain ⟨c1, fr, hc1, hex1, hfr10, hfr11, hfr18, hfr19, hfr21, hfrarr,
-      hfr1, hfr2, hfr4, hfr7, hfr8, hfr9, hfrfit, hfrpres, hfr5, hfr22⟩ :=
+      hfr1, hfr2, hfr4, hfr7, hfr8, hfr9, hfrfit, hfrpres, hfr5, hfr22, hfrstrip⟩ :=
       round2_exec ρ hn hw h m k L b d f S r hh hm hk1 hkm hL hf1 hf2 hf4 hf7 hf8 hf9 hf10
         hf11 hf18 hf19 harr hbases hrel hin hfit haddr
         (budget_round (R := 2 ^ m) (P := 2 ^ (k - 1)) hL (by rw [h2k] at h2km; exact h2km)
@@ -583,7 +617,7 @@ theorem lround2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
         rw [hfrpres _ (not_areg2_reloc hn hin')]
         exact hrel i hi1 hin'
       obtain ⟨c2, f2', bd, hc2raw, hex2, hf210, hf211, hf218, hf2bd, hf2arr,
-        hf21, hf22, hf24, hf27, hf28, hf29, hf2fit, hf2pres, hf25, hf222⟩ :=
+        hf21, hf22, hf24, hf27, hf28, hf29, hf2fit, hf2pres, hf25, hf222, hf2strip⟩ :=
         ih h m (k + 1) (2 * L) d b fr (S - (c1 + 1)) r hh hm (by omega) (by omega)
           hL' hfr1 hfr2 hfr4 hfr7 hfr8 hfr9 hfr10 hfr11 hfr18 hfr19
           (by rw [show k + 1 - 1 = k from by omega]; exact hfrarr)
@@ -597,7 +631,8 @@ theorem lround2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
         budget_step (R := 2 ^ m) (P := 2 ^ (k - 1)) (L := L) hL
           (by rw [h2k] at h2km; exact h2km) hkl hc1 hc2, ?_, hf210, hf211, hf218, hf2bd,
         hf2arr, hf21, hf22, hf24, hf27, hf28, hf29, hf2fit,
-        pres_trans hfrpres hf2pres, by rw [hf25, hfr5], by rw [hf222, hfr22]⟩
+        pres_trans hfrpres hf2pres, by rw [hf25, hfr5], by rw [hf222, hfr22],
+        fun q hq => (hf2strip q hq).trans (hfrstrip q hq)⟩
       rw [hwalk, hex2]
       rw [show S - (c1 + 1) - c2 = S - (c1 + 1 + c2) from by omega]
     · -- k = m: the guard falls through to the scan
@@ -615,7 +650,7 @@ theorem lround2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
         budget_last (R := 2 ^ m) (P := 2 ^ (k - 1)) (L := L) hL (by rw [← h2m, hL]) hkm2 hc1,
         hwalkE,
         ?_, ?_, hfr18, ?_, ?_, hfr1, hfr2, hfr4, hfr7, hfr8, hfr9, hfrfit, hfrpres,
-        hfr5, hfr22⟩
+        hfr5, hfr22, hfrstrip⟩
       · rw [hfr10, hkm2]
       · rw [hfr11, h2m]
       · rcases hbases with ⟨hb, hd⟩|⟨hd, hb⟩
@@ -646,7 +681,8 @@ theorem phaseA2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       f' 10 = m + 1 ∧ f' 11 = 2 ^ m ∧ f' 18 = bd ∧ (bd = B2 ∨ bd = B3) ∧
       arrL f' bd (2 ^ m) = halfSums (instA2 x h) m ∧
       f' 1 = 1 ∧ f' 2 = 0 ∧ f' 4 = m ∧ f' 7 = n ∧ f' 8 = 2 * n + 23 ∧ f' 9 = h ∧
-      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f0 f' ∧ f' 5 = 2 ^ h ∧ f' 22 = f0 22 := by
+      (∀ q, f' q < 2 ^ w) ∧ Pres (AReg2 n) f0 f' ∧ f' 5 = 2 ^ h ∧ f' 22 = f0 22 ∧
+      arrL f' A1 H = arrL f0 A1 H := by
   obtain ⟨f1, hinit, hfit1, h1_4, h1_5, h1_9, h1_10, h1_11, h1_18, h1_19, h1_22,
     h1_1, h1_2, h1_7, h1_8, h1_arr0, h1_arr, h1_pres⟩ :=
     init2_exec ρ hn f0 r S h m H M B2 B3 A1 hfit h1 h2 h7 h8 h9 hh hm h11 hH h22 hA1
@@ -660,7 +696,7 @@ theorem phaseA2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
     rw [h1_pres _ (not_areg2_reloc hn hin')]
     exact hrel i hi1 hin'
   obtain ⟨c2, f2', bd, hc2, hex2, hf210, hf211, hf218, hf2bd, hf2arr,
-    hf21, hf22, hf24, hf27, hf28, hf29, hf2fit, hf2pres, hf25, hf222⟩ :=
+    hf21, hf22, hf24, hf27, hf28, hf29, hf2fit, hf2pres, hf25, hf222, hf2strip⟩ :=
     lround2_exec ρ hn hw (m + 1 - 1) h m 1 1 B2 B3 f1 (S - 12) r hh hm (by omega) (by omega)
       (by rw [show (1:Nat) - 1 = 0 from rfl, Nat.pow_zero])
       h1_1 h1_2 h1_4 h1_7 h1_8 h1_9 h1_10 h1_11 h1_18 h1_19
@@ -668,11 +704,16 @@ theorem phaseA2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       (Or.inl ⟨hB2n, hB3n⟩) hrel1 hin hfit1 haddr (by omega) (by omega)
   refine ⟨12 + c2, f2', bd, by omega, ?_, hf210, hf211, hf218, ?_, hf2arr,
     hf21, hf22, hf24, hf27, hf28, hf29, hf2fit, pres_trans h1_pres hf2pres,
-    by rw [hf25, h1_5, hHh], by rw [hf222, h1_22, h22]⟩
-  rw [hinit, hex2]
-  rw [show S - 12 - c2 = S - (12 + c2) from by omega]
+    by rw [hf25, h1_5, hHh], by rw [hf222, h1_22, h22], ?_⟩
+  · rw [hinit, hex2]
+    rw [show S - 12 - c2 = S - (12 + c2) from by omega]
   · rcases hf2bd with hb | hb
     · exact Or.inl (by rw [hb, hB2n])
     · exact Or.inr (by rw [hb, hB3n])
+  · refine (arrL_congr (f := f2') (g := f1) (b := A1) (L := H) ?_).trans
+      (h1_arr.trans harr.symm)
+    intro q hq
+    rw [hA1]
+    exact hf2strip q (hHh ▸ hq)
 
 end SubsetSum.MITM.P2M
