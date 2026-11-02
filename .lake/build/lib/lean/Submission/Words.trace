@@ -1,0 +1,33 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["a357c9ddb151288c.olean"],
+  "m": false,
+  "i": "961631eca9376e0f.ilean",
+  "c": "d2a1ac18e312bc5f.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean /Users/dmitri.arkhipov/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Words.lean -o /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Words.olean -i /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Words.ilean -c /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Words.c --setup /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Words.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["deps",
+   [["subsetsum/Submission:extraDep",
+     [["@subsetsum:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Submission.Fit transitive imports (legacy)", "c6503ffc06bb70fa"],
+      ["Submission.Fit:importAllArts", "f495214d5b0c9d33"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Words.lean",
+   "bed9f7d819300c2b"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Submission.Words", "da98996437a59159"],
+  ["Package.id?: (some subsetsum)", "b93078239b8ec3db"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "086351c6f2fe362e"}

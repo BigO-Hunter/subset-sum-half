@@ -1,0 +1,54 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["e38a7ef414fbd415.olean"],
+  "m": false,
+  "i": "cbc73171b5877b09.ilean",
+  "c": "a856ecc1be44e28e.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean /Users/dmitri.arkhipov/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Sort.lean -o /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Sort.olean -i /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Sort.ilean -c /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Sort.c --setup /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Sort.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "Submission/Sort.lean:51:14: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:66:14: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:99:15: try 'simp' instead of 'simpa'\n\nNote: This linter can be disabled with `set_option linter.unnecessarySimpa false`",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:112:14: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:124:14: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:164:14: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Sort.lean:169:14: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"}],
+ "inputs":
+ [["deps",
+   [["subsetsum/Submission:extraDep",
+     [["@subsetsum:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Submission.Spec transitive imports (legacy)", "09a606cd202665d8"],
+      ["Submission.Spec:importAllArts", "bd2cf42dd3b67fce"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Sort.lean",
+   "fa0ef2566029251c"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Submission.Sort", "95ff0831d7a02c77"],
+  ["Package.id?: (some subsetsum)", "b93078239b8ec3db"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "f9b3df82380e5a3f"}

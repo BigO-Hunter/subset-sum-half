@@ -1,0 +1,59 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["07b2274f95ce03de.olean"],
+  "m": false,
+  "i": "468b3e028e3976ec.ilean",
+  "c": "2cef345224557ee8.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean /Users/dmitri.arkhipov/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Prologue.lean -o /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Prologue.olean -i /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Prologue.ilean -c /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Prologue.c --setup /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/Prologue.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "Submission/Prologue.lean:213:5: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:221:5: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:265:27: Variable name `hn` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hn\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:284:4: `dif_pos` has been deprecated: Use `dite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:309:6: `dif_pos` has been deprecated: Use `dite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:1088:38: Variable name `hf5` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hf5\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:1402:45: This simp argument is unused:\n  Nat.mul_one\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [Nat.sub_sub, Nat.reduceAdd, Nat.zero_add]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/Prologue.lean:1402:58: This simp argument is unused:\n  Nat.zero_add\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [Nat.sub_sub, Nat.reduceAdd, Nat.mul_one]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"}],
+ "inputs":
+ [["deps",
+   [["subsetsum/Submission:extraDep",
+     [["@subsetsum:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Submission.Det transitive imports (legacy)", "05b25ef383669b9f"],
+      ["Submission.Det:importAllArts", "96c7c08ffbbf3f97"],
+      ["Submission.Words transitive imports (legacy)", "c2e2b423c85fe2c1"],
+      ["Submission.Words:importAllArts", "be957831a4704456"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/Prologue.lean",
+   "08062d08be0ca985"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Submission.Prologue", "a3c97f85ab6898f5"],
+  ["Package.id?: (some subsetsum)", "b93078239b8ec3db"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "2cdbc9d94c3df773"}

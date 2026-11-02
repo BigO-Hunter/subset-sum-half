@@ -1,0 +1,81 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["5d468a7b9b532f42.olean"],
+  "m": false,
+  "i": "324dd260d7da12a0.ilean",
+  "c": "7a4e981309e13bb2.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean /Users/dmitri.arkhipov/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/SmallN.lean -o /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SmallN.olean -i /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SmallN.ilean -c /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/SmallN.c --setup /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/SmallN.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "Submission/SmallN.lean:78:71: This simp argument is unused:\n  false_or\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [isSum_one_iff, List.mem_cons, List.not_mem_nil, or_false]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:95:71: This simp argument is unused:\n  false_or\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [isSum_two_iff, List.mem_cons, List.not_mem_nil, or_false]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:345:27: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, ht0]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:370:29: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, hta]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:384:31: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htb]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:398:33: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htc]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:408:38: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [List.mem_cons, List.not_mem_nil, or_false]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:508:30: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, ht0]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:541:51: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, hta]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:555:53: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htb]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:569:55: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htc]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:583:57: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htd]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:623:37: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, hte]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:665:39: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htf]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:706:41: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp [List.mem_cons, htg]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Submission/SmallN.lean:722:46: This simp argument is unused:\n  List.mem_singleton\n\nHint: Omit it from the simp argument list.\n  [apply] simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"}],
+ "inputs":
+ [["deps",
+   [["subsetsum/Submission:extraDep",
+     [["@subsetsum:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Submission.PhaseB transitive imports (legacy)", "739f196e9ad07f43"],
+      ["Submission.PhaseB:importAllArts", "f7134df29411fbf5"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/SmallN.lean",
+   "a92e165fb9bccd87"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Submission.SmallN", "00fbeea940f2bf3f"],
+  ["Package.id?: (some subsetsum)", "b93078239b8ec3db"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "7b098e6bbd8d20c8"}

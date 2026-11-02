@@ -1,0 +1,58 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["17f0002c0dd9254f.olean"],
+  "m": false,
+  "i": "513b58e22a09ab04.ilean",
+  "c": "f04dbcacff049c7e.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean /Users/dmitri.arkhipov/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/PhaseA.lean -o /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/PhaseA.olean -i /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/PhaseA.ilean -c /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/PhaseA.c --setup /Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/ir/Submission/PhaseA.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "Submission/PhaseA.lean:249:24: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:266:24: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:626:44: Variable name `v` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _v\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:626:54: Variable name `hd` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hd\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:627:5: Variable name `hfit` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hfit\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:1054:14: `if_pos` has been deprecated: Use `ite_eq_left` instead",
+   "level": "warning"},
+  {"message":
+   "Submission/PhaseA.lean:1059:14: `if_neg` has been deprecated: Use `ite_eq_right` instead",
+   "level": "warning"}],
+ "inputs":
+ [["deps",
+   [["subsetsum/Submission:extraDep",
+     [["@subsetsum:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Submission.Prologue transitive imports (legacy)", "99bd0531aa603dff"],
+      ["Submission.Prologue:importAllArts", "94599806f0a56b9b"],
+      ["Submission.Sort transitive imports (legacy)", "3807c162119f9222"],
+      ["Submission.Sort:importAllArts", "6e01ea0fabde1c15"],
+      ["Submission.Fit transitive imports (legacy)", "c6503ffc06bb70fa"],
+      ["Submission.Fit:importAllArts", "f495214d5b0c9d33"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/Submission/PhaseA.lean",
+   "db727b37b5dc1d14"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Submission.PhaseA", "b30b3b818850fc33"],
+  ["Package.id?: (some subsetsum)", "b93078239b8ec3db"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "bc8e64ac97e5873a"}

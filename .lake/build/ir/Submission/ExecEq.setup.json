@@ -1,0 +1,19 @@
+{"plugins": [],
+ "package": "subsetsum",
+ "options": {},
+ "name": "Submission.ExecEq",
+ "isModule": false,
+ "importArts":
+ {"Submission.SubsetSumStatement":
+  [["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SubsetSumStatement.olean",
+    "/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SubsetSumStatement.olean.server",
+    "/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SubsetSumStatement.olean.private"],
+   ["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SubsetSumStatement.ir.sig",
+    "/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/SubsetSumStatement.ir"]],
+  "Submission.Program":
+  [["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Program.olean"]],
+  "Submission.Det":
+  [["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Det.olean"]],
+  "Submission.Bench":
+  [["/Users/dmitri.arkhipov/prove2me_workspace/subset-sum/.lake/build/lib/lean/Submission/Bench.olean"]]},
+ "dynlibs": []}
