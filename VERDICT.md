@@ -37,6 +37,11 @@ budgeting prologue + phaseA + canon + phaseA2 + scanB under one `T = C·2^(n/2) 
 SolvedInTime (1/2)` via `correct_of_det`, with `den_one_half`/`num_one_half` imported from the classic
 lane's salvage set.
 
+**Open issues filed against this lane (register):** R2125607814 — the `prog2` correctness
+battery is unrunnable (`Bench2.lean` is v1-era dead, `Bench2C.lean` never finished); R2125607815 — the
+root `Submission.lean` is an empty scaffold that does not import the proof; R2125607816 — repoint
+`packaging/file.py` to the 1/2 payload and untrack `.lake`. Read those before filing.
+
 **Filing payload:** repo `subsetsum-v2-snapshot` (no remote yet — push to a fresh repo at filing; never
 darkhipo/subset-sum-mitm, never GitHub issue #94), SHA `2536a1d` + the commits that follow this one,
 entry theorem `theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime (1/2)`, bound **1/2**, toolchain
