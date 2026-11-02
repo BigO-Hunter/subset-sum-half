@@ -1,3 +1,15 @@
+> **READ `VERDICT.md` FIRST (2026-11-02).** This lane is the α=1/2 vehicle.
+> The target in this brief (`SolvedInTime (51/100)`) is **DEAD**: the 2026-11-02 board
+> ruling gives a proof run only at α ≤ 1/2, so the fileable theorem is
+> `theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime (1/2)`, on the `prog2`
+> program (this brief's §"Remaining 1-6" describes the OLD 3/4 `prog`, which is complete
+> and green — it is now only the assembly template). Live state: 25/25 modules green;
+> `Prog2Merge2` fixed; F-risks 1-3 discharged. Remaining, in order:
+> `round2_exec`/`lround2_exec`/`phaseA2_exec` (port `PhaseA.round_exec` /
+> `Prog2PhaseA.round_exec_p2` to `instA2 x h`, bases B2/B3, pcs 173→223) → `scanB_exec`
+> (224→243) → prog2 budget chain → `Race.bound`. Nothing pushed, never touch
+> darkhipo/subset-sum-mitm or issue #94.
+
 # Subset-sum MITM — NEXT MIND BRIEF (R2125607414)
 
 **Target**: `BigOSpeedrun.SubsetSum.SolvedInTime (51/100 : Rat)` — first verified
