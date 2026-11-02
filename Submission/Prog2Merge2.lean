@@ -28,6 +28,15 @@ namespace SubsetSum.MITM.P2M
 
 open BigOSpeedrun.SubsetSum SubsetSum.MITM.Spec
 
+/-- `B2`'s numeral form in `n`. Proved at file scope: `omega` inside the
+exec walk gives up on this goal with the walk's product hypothesis `he164`
+(a `*` between `2 ^ ·` terms) in scope, so the arithmetic lives here where
+the context is small. -/
+private theorem b2_shape (n A1 H B2 : Nat) (hB2 : B2 = A1 + H + 1)
+    (hA1 : A1 = 3 * n + 25) (hH : H = 2 ^ (n / 2)) :
+    B2 = 3 * n + 26 + 2 ^ (n / 2) := by
+  rw [hB2, hA1, hH]; omega
+
 /-! ## §1. The merge loops at re-based pcs (scripted port) -/
 
 /-! ## §4. The merge loops -/
@@ -980,12 +989,12 @@ theorem init2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
   have he167 : (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 18
       + (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 20 = B2 + M := by
     rw [up_eq,
+      up_ne (show (20:Nat) ≠ 18 by omega),
       up_ne (show (20:Nat) ≠ 18 by omega), up_eq,
       show (2:Nat) ^ m = M from by rw [← hM]]
   have f7f : ∀ q, (up (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 19 (B2 + M)) q < 2 ^ w :=
     up_fit f6f (henv (B2 + M) (by
-      have hB2e : B2 = 3 * n + 26 + 2 ^ (n / 2) := by
-        rw [hB2, hA1, hH]
+      have hB2e := b2_shape n A1 H B2 hB2 hA1 hH
       have hMe : M = 2 ^ (n - n / 2) := by rw [hM, hm, hh]
       omega))
   have he168 : (up (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 19 (B2 + M)) 19
@@ -998,8 +1007,7 @@ theorem init2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
     omega
   have f8f : ∀ q, (up (up (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 19 (B2 + M)) 19 B3) q < 2 ^ w :=
     up_fit f7f (henv B3 (by
-      have hB2e : B2 = 3 * n + 26 + 2 ^ (n / 2) := by
-        rw [hB2, hA1, hH]
+      have hB2e := b2_shape n A1 H B2 hB2 hA1 hH
       have hMe : M = 2 ^ (n - n / 2) := by rw [hM, hm, hh]
       omega))
   have he169 : (up (up (up (up (up (up (up (up f0 5 H) 4 m) 20 1) 20 (2 ^ m)) 18 (A1 + H)) 18 B2) 19 (B2 + M)) 19 B3) 1
@@ -1169,7 +1177,8 @@ theorem init2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
         arrL_up_out (fun q _ => show (5:Nat) ≠ A1 + q by
             have hA1e : A1 = 3 * n + 25 := hA1; omega)]
     rw [hcong, harr]
-  · have hreg : ∀ c, c ≤ 22 → AReg2 n c := fun c hc => Or.inl hc
+    refine ⟨rfl, ?_⟩
+    have hreg : ∀ c, c ≤ 22 → AReg2 n c := fun c hc => Or.inl hc
     have hB2reg : AReg2 n B2 := by
       refine Or.inr ⟨?_, ?_⟩
       · have hB2e : B2 = 3 * n + 26 + 2 ^ (n / 2) := by rw [hB2, hA1, hH]; omega
@@ -1189,7 +1198,7 @@ theorem init2_exec {w n : Nat} (ρ : Nat → BitVec w) {x : Instance n}
       (pres_trans (pres_up (hreg 11 (by omega)))
       (pres_trans (pres_up (hreg 20 (by omega)))
       (pres_trans (pres_up hB2reg)
-      (pres_up (hreg 10 (by omega)))))))))))
+      (pres_up (hreg 10 (by omega)))))))))))))
 
 end Merge2
 
