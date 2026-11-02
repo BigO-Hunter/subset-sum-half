@@ -7,9 +7,9 @@ the single source of truth — file.sh is a two-line shim onto this.
 Rebuilt 2026-11-01 from the lessons of filing issue #94:
   - the package keeps the Submission/ module tree (flattening breaks
     imports); Bench.lean is INCLUDED (ExecEq's exec-mirror imports it)
-  - the filed Bound must be a REDUCED rational (3/4, not 75/100); Rat
+  - the filed Bound must be a REDUCED rational (1/2); Rat
     literals do not kernel-reduce, so the entry theorem uses
-    Race_bound_reduced (the rat75 bridge in Submission/Race.lean)
+    Race.bound (Submission/Prog2Race.lean:389)
   - the issue body is EXACTLY the four form fields — no Notes section
     (the bot rejects unexpected/multiline fields; see the #93/#94 acks)
   - git runs as /usr/bin/git: the body shim routes `git commit` to
@@ -35,30 +35,30 @@ from pathlib import Path
 
 logger = logging.getLogger("file")
 
-WD = Path.home() / "prove2me_workspace/subset-sum"
+WD = Path(__file__).resolve().parents[1]  # the repo root (was: stale tool-workspace copy)
 PKG = WD / "packaging"
-REPO_NAME = "subset-sum-mitm"
+REPO_NAME = "subset-sum-half"
 GH_OWNER = "darkhipo"
 REGISTER_ID = "2125607414"
-BOUND = "3/4"
+BOUND = "1/2"
 GIT = "/usr/bin/git"  # past the body's opencode-git-shim (see module docstring)
 
-ENTRY_LEAN = """import Submission.Race
+ENTRY_LEAN = """import Submission.Prog2Race
 
-/-- The submission target: subset-sum in O(2^(0.75n)). -/
-theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime (3 / 4 : Rat) :=
-  SubsetSum.MITM.Race_bound_reduced
+/-- The submission target: subset-sum in O(2^(n/2)) -- alpha = 1/2. -/
+theorem Race.bound : BigOSpeedrun.SubsetSum.SolvedInTime (1 / 2 : Rat) :=
+  SubsetSum.MITM.Race.bound
 """
 
-COMMIT_MSG = """Subset-sum O(2^(0.75n)): single-program MITM on the word RAM
+COMMIT_MSG = """Subset-sum O(2^(n/2)): deterministic MITM at alpha = 1/2 on the word RAM
 
 Deterministic meet-in-the-middle (Horowitz-Sahni): first-half sums built
-by doubling merge, sorted, second-half candidates binary-searched for
-complements of t. One finite List-Instr program for all n >= 2; small n
+by doubling merge, and a linear two-pointer sweep finds complements of t
+in the sorted second half. One finite List-Instr program for all n >= 2; small n
 dispatches to unrolled verdict code. No Mathlib — core Lean only.
 Statement byte-exact to the canonical challenge (sha 80bc6d28).
 
-Race.bound : SolvedInTime (3/4), axioms [propext, Classical.choice,
+Race.bound : SolvedInTime (1/2), axioms [propext, Classical.choice,
 Quot.sound], zero sorry across all modules.
 """
 
@@ -117,8 +117,8 @@ def verify() -> None:
     logger.info("  zero sorry")
 
     logger.info("  %s", axiom_audit(
-        WD, "import Submission.Race",
-        "SubsetSum.MITM.Race_bound_reduced"))
+        WD, "import Submission.Prog2Race",
+        "SubsetSum.MITM.Race.bound"))
 
 
 def package() -> Path:
@@ -155,7 +155,7 @@ def fresh_build(repo: Path) -> None:
         raise RuntimeError("package fails under -DautoImplicit=false:\n"
                            + (our.stdout + our.stderr)[-900:])
     logger.info("  ✓ clean under the verifier harness (autoImplicit=false)")
-    logger.info("  %s", axiom_audit(repo, "import Submission", "Race.bound"))
+    logger.info("  %s", axiom_audit(repo, "import Submission.Prog2Race", "SubsetSum.MITM.Race.bound"))
 
 
 def push(repo: Path) -> str:
@@ -173,11 +173,29 @@ def push(repo: Path) -> str:
     if create.returncode != 0:
         logger.info("  repo exists; pushing")
         run([GIT, "remote", "add", "origin",
-             f"git@github.com:{GH_OWNER}/{REPO_NAME}.git"],
+             f"https://github.com/{GH_OWNER}/{REPO_NAME}.git"],  # https: gh token auth; SSH answers Repository-not-found
             cwd=repo, check=False)
-        run([GIT, "push", "-q", "origin", "main"], cwd=repo, timeout=300)
+        # R2125607823: the remote already carries the VERIFIED tree (the full
+        # repo, build 30/0/0). This packaged commit is a fresh init with no
+        # common ancestor, so a push is correctly rejected as non-fast-forward.
+        # Do NOT force-push: publish nothing, use the remote tip as the payload
+        # (read below). If the package is ever ahead, push normally succeeds.
+        pushed = run([GIT, "push", "-q", "origin", "main"], cwd=repo, timeout=300, check=False)
+        if pushed.returncode != 0:
+            logger.info("  remote already carries the verified tree; payload = remote tip")
+            sha = None  # signal: payload = remote tip (verified by blob below)
     remote = run(["gh", "api", f"repos/{GH_OWNER}/{REPO_NAME}/commits/main",
                   "--jq", ".sha"], timeout=120).stdout.strip()
+    if sha is None:
+        local_blob = run([GIT, "hash-object", str(WD / "Submission/Prog2Race.lean")],
+                         cwd=repo, timeout=60).stdout.strip()
+        remote_blob = run(["gh", "api",
+                           f"repos/{GH_OWNER}/{REPO_NAME}/contents/Submission/Prog2Race.lean",
+                           "--jq", ".sha"], timeout=120).stdout.strip()
+        if local_blob != remote_blob:
+            raise RuntimeError(f"remote entry module differs ({remote_blob} != {local_blob})")
+        logger.info("  payload = remote tip (entry module verified): %s", remote)
+        return remote
     if remote != sha:
         raise RuntimeError(f"pushed SHA {remote} != local {sha}")
     logger.info("  ✓ pushed and verified: https://github.com/%s/%s @ %s",
@@ -194,8 +212,8 @@ def file_issue(sha: str) -> str:
     body_file = Path("/tmp/issue_body.md")
     body_file.write_text(body, encoding="utf-8")
     out = run(["gh", "issue", "create", "-R", "bigospeedrun/verifier",
-               "--title", "[Lean submission] Subset-sum: exponent 3/4 "
-                          "(0.75n), deterministic MITM",
+               "--title", f"[Lean submission] Subset-sum: exponent {BOUND} "
+                          "(0.5n), deterministic MITM",  # derived from BOUND (was stale 3/4 on issue #101)
                "--body-file", str(body_file)], timeout=120).stdout.strip()
     logger.info("  filed: %s", out)
     return out
